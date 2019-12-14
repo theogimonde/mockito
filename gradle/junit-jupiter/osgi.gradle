@@ -1,0 +1,27 @@
+apply plugin: 'osgi'
+
+afterEvaluate {
+    tasks.matching { it.name == 'jar' }.all { jar ->
+        jar.manifest {
+            classpath = project.configurations.runtime
+
+            instruction '-versionpolicy', '[${version;==;${@}},${version;+;${@}})'
+
+            name = 'Mockito JUnit 5 support.'
+            symbolicName = 'org.mockito.mockito-junit-jupiter'
+            version = project.version.replace('-', '.')
+
+            instruction 'Export-Package',
+                    "org.mockito.junit.jupiter.*;version=${version}"
+
+            instruction 'Import-Package',
+                    'org.junit.jupiter.api.extension.*;version="[5.0,6.0)"',
+                    'org.junit.platform.commons.support.*;version="[1.0,2.0)"'
+
+            instruction 'Fragment-Host',
+                    "org.mockito.mockito-core;bundle-version=${version}"
+
+            attributes 'Automatic-Module-Name': 'org.mockito.junit.jupiter'
+        }
+    }
+}

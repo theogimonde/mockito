@@ -29,6 +29,9 @@ afterEvaluate {
 
             instruction '-removeheaders', 'Private-Package'
 
+            instruction 'Eclipse-ExtensibleAPI',
+                    'true'
+
             attributes 'Automatic-Module-Name': 'org.mockito'
         }
     }
